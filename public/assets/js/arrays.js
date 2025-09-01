@@ -1,0 +1,347 @@
+const backEndUrl = 'https://backend.lorenzo-viganego.com/';
+const backEndUrlNoProxy = 'http://172.232.217.98:3000/';
+const localHost = 'http://localhost:3000/';
+const awardSpaceUrl = 'http://lorenzovdev.atwebpages.com/';
+
+export const portGallery = [
+  {
+    header: 'Login And Subscription',
+    image: 'loginPage.png',
+    description: 'A login/subscription page that request login authorization to the dummy server. It also stores fake contacts into the users.json and check hashed password authenticity',
+    href: `${backEndUrl}projects/loginpage/`,
+    type: 'reactprojects',
+    linkType: 'params'
+  }, {
+    header: 'Animal cards',
+    image: 'animals.png',
+    description: '',
+    href: `${backEndUrl}projects/animalcards/`,
+    type: 'reactprojects',
+    linkType: 'params'
+  },  {
+    header: 'E-commerce',
+    image: 'product-page.png',
+    description: 'An e-commerce page that uses multiple react features',
+    href: 'https://commerce.lorenzo-viganego.com/index.html',
+    type: 'reactprojects',
+    linkType: 'newtab'
+  }, {
+    header: 'Redux Birds',
+    image: 'reduxbirds.png',
+    description: '""⚠️Project not Adaptive yet!"" A Project that involves the usage of the redux-library in React. Very useful to manage both states and states\' reducers',
+    href: `${backEndUrl}projects/reduxbirds/`,
+    type: 'reactprojects',
+    linkType: 'params'
+  },{
+    header: 'Salad Maker',
+    image: 'saladmaker.png',
+    description: 'A Salad Maker project simulating the logic behind adding ingredients on the Glovo website',
+    href: `https://saladmaker.lorenzo-viganego.com/`,
+    type: 'reactprojects',
+    linkType: 'newtab'
+  }, {
+    header: 'Text Analyzer',
+    image: 'textanalyzer.png',
+    description: 'A text analyzer that gives the characters and words count as well as offering a character map (how many times a character has been written in the text)',
+    href: `${backEndUrl}projects/textanalyzer/`,
+    type: 'reactprojects',
+    linkType: 'params'
+  }, {
+    header: 'File Creator',
+    image: 'filecreator.png',
+    description: 'Project In Development ⚠️ A file creator program that allows the client to: define the file\'s extension, write the file content and request how many files he needs',
+    href: `${backEndUrl}projects/filecreator/`,
+    type: 'reactprojects',
+    linkType: 'params'
+  }, {
+    header: 'Final Project-Amazon Like Website',
+    image: 'amazon-like-project.png',
+    description: 'An Amazon-like website that contains Javascript hard-coding such as DOM manipulation via MVC, libraries usage (dayjs), GET requests and POST requests to the backend. You can find its code on the "My porfolio FRONT-end repository." project',
+    href: 'AmazonLikeWebsite/amazon.html',
+    type: 'projects',
+    linkType: 'internal'
+  },  {
+    header: 'Youtube Like Webpage',
+    image: 'youtube-like-project.png',
+    description: 'A Youtube-like webpage built using only HTML and CSS. You can find its code on the "My porfolio FRONT-end repository" project.',
+    href: 'YoutubeLikeWebsite/youtube.html',
+    type: 'projects',
+    linkType: 'internal'
+  }, {
+    header: 'My portfolio back-end repository',
+    image: 'backend.png',
+    description: 'I decided to build both my portolio and its own backend in order to become proficient in terms of full stack web development. You can check on Git for more information about it....',
+    href: 'https://github.com/lorenzoVwebDev/PortfolioBackend.git',
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'Final Project (MongoDB) - mvc-user-roles',
+    image: 'mongo.png',
+    description: 'A node web server based on MVC that serves log files and set the allowed origins/headers for CORS. It includes the error handling middleware at the end of the chain. It also performs api crud operations on the employees with a MongoDB database. Sign Up, sign in, log out and change password ......',
+    href: `https://github.com/lorenzoVwebDev/express-mvc-mongo-db`,
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'Final Project (Mysql) - mvc-user-roles',
+    image: 'noderoles.png',
+    description: 'A node web server based on MVC that serves log files and set the allowed origins/headers for CORS. It includes the error handling middleware at the end of the chain. It also performs api crud operations on the employees mysql table. Sign Up, sign in, log out and change password mvc for a ....',
+    href: `https://github.com/lorenzoVwebDev/mvc-user-roles`,
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'mvc-signup-signin (Mysql)',
+    image: 'authorization.png',
+    description: 'A node web server based on MVC that serves log files and set the allowed origins/headers for CORS. It includes the error handling middleware at the end of the chain. It also performs api crud operations on the employees mysql table. Sign Up, sign in.....',
+    href: `https://github.com/lorenzoVwebDev/express-mvc-signup-signin`,
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'mvc-employees-crud (Mysql)',
+    image: 'employeesmysql.png',
+    description: 'A node web server based on MVC that serves log files and set the allowed origins/headers for CORS. It includes the error handling middleware at the end of the chain. It also performs api crud operations on the employees mysql table',
+    href: `https://github.com/lorenzoVwebDev/mvc-employees-crud`,
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'Authorization Server',
+    image: 'login.png',
+    description: 'An authorization server that checks whether the client credentials are right. MVC using express.Routes() to handle the login authorization and virtual other subscribe/login scripts with just one uri segment....',
+    href: `https://github.com/lorenzoVwebDev/login-authorization`,
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'Static Files Server',
+    image: 'staticfilesserver.png',
+    description: 'A simple but useful static files server.',
+    href: `https://github.com/lorenzoVwebDev/static-files-server`,
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'mvc-node-logs-creator',
+    image: 'logscreator.png',
+    description: ' A node web server based on MVC that serves log files and set the allowed origins/headers for CORS.',
+    href: 'https://github.com/lorenzoVwebDev/node-logs-creator',
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'mvc-CORS-authorization',
+    image: 'mvccors.png',
+    description: 'A node logs creator, mvc framework backend structure',
+    href: 'https://github.com/lorenzoVwebDev/mvc-CORS-authorization',
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'mvc-error-handling',
+    image: 'errorhandling.png',
+    description: 'A node web server based on MVC that serves log files and set the allowed origins/headers for CORS. It includes the error handling middleware at the end of the chain.',
+    href: 'https://github.com/lorenzoVwebDev/mvc-error-handling',
+    type: 'node',
+    linkType: 'newtab'
+  }, {
+    header: 'Calculator',
+    image: 'calculator.png',
+    description: 'A useful calculator with a fancy CSS appearance. You can find its code on the "My porfolio BACK-end repository" project.',
+    href: `${backEndUrl}projects/sendcalculator/`,
+    type: 'projects',
+    linkType: 'params'
+  }, {
+    header: 'Tic-Tac-Toe-Game',
+    image: 'tic-tac-toe-game.png',
+    description: 'A simple looking Tic-Tac-Toe game with an interesting usage of a while loop behind. A useful calculator with a fancy CSS appearance. You can find its code on the "My porfolio BACK-end repository" project.',
+    href: `${backEndUrl}projects/tictactoe/`,
+    type: 'projects',
+    linkType: 'params'
+  }, {
+    header: 'Rock-Paper-Scissors',
+    image: 'rock-paper-scissors-game.png',
+    description: 'Rock, paper, and scissor game. One of my first projects. A useful calculator with a fancy CSS appearance. You can find its code on the "My porfolio BACK-end repository" project.',
+    href: `${backEndUrl}projects/rockpaperscissor/`,
+    type: 'projects', 
+    linkType: 'params'
+  }, {
+    header: 'Game Of Life',
+    image: 'gameoflife.png',
+    description: 'The famous John Conway\' game.',
+    href: `https://gameoflife.lorenzo-viganego.com/`,
+    type: 'reactprojects',
+    linkType: 'newtab'
+  }, {
+    header: 'To do list',
+    image: 'todolist.png',
+    description: 'A simple and useful to do list developed with react.',
+    href: `${backEndUrl}projects/todolist/`,
+    type: 'reactprojects',
+    linkType: 'params'
+  }, {
+    header: 'My portfolio front-end repository',
+    image: 'portfolio.png',
+    description: 'This portfolio has been entirely developed by me. I have combined all my experience in terms of web development in order to create my own portfolio. You can check on Git for more information about it....',
+    href: 'https://github.com/lorenzoVwebDev/lorenzoVigPortfolioFrontend.git',
+    type: 'projects',
+    linkType: 'newtab'
+  }, {
+    header: 'Microsoft 365 Templates',
+    image: 'microsoft.png',
+    description: 'Watch my microsoft 365 templates',
+    href: 'EXC&PP.html',
+    type: 'excelpowerpoint',
+    linkType: 'html'
+  }, {
+    header: 'Final Project-MVC Dog Application',
+    image: 'mvcdogapplication.png',
+    description: 'A simple dog creation website that allows to create dogs with crud operations based on dedicated mysql tables. Ajax ssr, Authentication (JWT), logs recording, mailer service and more.',
+    href: `https://apachebackend.lorenzo-viganego.com/mvc-dog-application/public/`,
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'MVC login signup',
+    image: 'loginsignup.png',
+    description: 'A complete authentication web app that involves sign up, sign in, tokens usage to give page permissions and also allows to change password',
+    href: `https://apachebackend.lorenzo-viganego.com/mvc-login-signup/public/`,
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'MVC-mysql-crud',
+    image: 'mysqlcrud.png',
+    description: 'A to do list that manages crud operations based on storing data on a local mysql database',
+    href: `https://apachebackend.lorenzo-viganego.com/mvc-mysql-crud/public/`,
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'Exception Logger',
+    image: 'exceptionlogger.png',
+    description: 'An exception logger backend that manages exception and log a file, you can log the error log file by dividing by 0',
+    href: `https://apachebackend.lorenzo-viganego.com/exceptionlogpr/`,
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'Logs Table Reader',
+    image: 'logstablereader.png',
+    description: 'A web application based on an mvc framework that is able to log inputs, download log files and SSR a table by reading the log file',
+    href: `https://apachebackend.lorenzo-viganego.com/logs-table-reader-mvc/public/`,
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'MVC Mailer Form',
+    image: 'mailerform.png',
+    description: 'An Mvc framework web application that sends logs on request, just try to enter your email to prove that. Note: Your mail will neither be stored nor used for earning purposes',
+    href: `https://apachebackend.lorenzo-viganego.com/mvc-mailer-form/public/`,
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'MVC-xml-crud',
+    image: 'xmlcrud.png',
+    description: 'A to do list that manages crud operations based on storing data on xml files',
+    href: `https://apachebackend.lorenzo-viganego.com/mvc-xml-crud/public/`,
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'dogCreationEngine',
+    image: 'dogApplication.png',
+    description: 'A dog creation engine involving several aspects of developing with php, the simplest version of the mvc-dog-application project',
+    href: 'https://apachebackend.lorenzo-viganego.com/dogapplication/',
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'MVC Framework Template',
+    image: 'mvcframeworktemplate.png',
+    description: 'The base template (built by me) of my mvc php projects',
+    href: `https://github.com/lorenzoVwebDev/mvc-framework-template`,
+    type: 'php',
+    linkType: 'newtab'
+  }, {
+    header: 'ToDoList angular',
+    image: 'angulartodolist.png',
+    description: 'Classic toDoList project that covers almost all of the angular essentials',
+    href: `https://todolist.lorenzo-viganego.com/`,
+    type: 'angular',
+    linkType: 'newtab'
+  }, {
+    header: 'responsiveMenu angular',
+    image: 'responsivemenu.png',
+    description: 'Classic toDoList project that covers almost all of the angular essentials',
+    href: `https://responsivemenu.lorenzo-viganego.com/`,
+    type: 'angular',
+    linkType: 'newtab'
+  }
+];
+
+export const templatesGallery = [
+  {
+    header: 'Simple interactive Dashboard',
+    image: 'interactivedashboard.png',
+    description: 'A Gantt chart is a commonly used graphical depiction of a project schedule. It s a type of bar chart showing the start and finish dates of a project s elements, such as resources, planning, and dependencies.',
+    href: `${backEndUrl}templatesresume/dashboard`,
+    type: 'excel'
+  },  {
+    header: 'Gannt Chart',
+    image: 'ganttChart.png',
+    description: 'An interactive dashboard is a business data management tool that allows users to interact with data by tracking, analyzing, monitoring, and displaying key business metrics.l',
+    href: `${backEndUrl}templatesresume/ganttchart`,
+    type: 'excel'
+  }, {
+    header: 'Full stack interactive dashboard',
+    image: 'fullstack.png',
+    description: 'Manage, track, and update all project details, and gain insight into how the project is progressing against your project plan with this project tracker template.',
+    href: `${backEndUrl}templatesresume/Interactiveganttdashboard`,
+    type: 'excel'
+  }, {
+    header: 'Company Presentation',
+    image: 'company.png',
+    description: 'A company presentation that has been enriched with morph transitions.',
+    href: `${backEndUrl}templatesresume/company`,
+    type: 'powerpoint'
+  }, {
+    header: 'Department Presentation',
+    image: 'department.png',
+    description: 'A scroll presentation that is very useful to rapidly show you company\'s departments.',
+    href: `${backEndUrl}templatesresume/department`,
+    type: 'powerpoint'
+  }, {
+    header: 'Company business plan presentation',
+    image: 'business.png',
+    description: 'A fast-forward, to the point presentation with the purpose of showcase your company\'s future goals',
+    href: `${backEndUrl}templatesresume/business`,
+    type: 'powerpoint'
+  }  
+];
+
+export const jobsDone = [
+  {
+    name: 'Web developer',
+    slightDescription: 'I decided to undertake this path in January 2024. Programming languages and, more in general, informatics have always interested me from many points of view, such as being able to build your own application for business purposes....',
+    description: 'I decided to undertake this path in January 2024. Programming languages and, more in general, informatics have always interested me from many points of view, such as being able to build your own application for business purposes or just for fun. Since January 2024, I\'ve been studying web development for work purposes. It was a very hard endeavor to pursue, and throughout my learning journey, I have faced several issues that I have overcome, all due to my perseverance and relying on many very good information sources broadly renowed by the whole web developers\' community, such as MDN Web, w3Schools and frameworks, libraries, and runtime docs (the useful ones, in my opinion). Although I\'ve used many other tools through my learning journey, I have to say that these formal information sources have enhanced my skills as well as my overall knowledge in terms of web development, as no other one has. I\'m thrilling to start working in this very fascinating new world. Let\'s code together.',
+    image: '1.png',
+    id: 'webdev',
+    icon: 'typescript',
+  }, {
+    name: 'Energetic advicer',
+    slightDescription: 'I worked in the energy sector for about two years. This former experience allowed me to undertake many different paths in almost all the different departments related to the energy sector. Mainly, I worked in the SSD addressing issues department....',
+    description: 'I worked in the energy sector for about two years. This former experience allowed me to undertake many different paths in almost all the different departments related to the energy sector. Mainly, I worked in the SSD addressing issues department, which was related to addressing issues derived from mistakes during the bank periodic payment alignment. I was in charge as the team coordinator, and my main responsibility was to weekly report the data about revenues and outcomes in terms of SSD per client retrieved to the client\'s account managers. Anyway, my superiors put me in many other departments, such as the customer service mail department, SDI retrieval, selling, crossselling, upselling, and others.',
+    image: '2.png',
+    id: 'enerconsul',
+    icon: 'lightning',
+  }, {
+    name: 'Music Producer',
+    slightDescription: 'My musical life, at a certain point, led me to become a music producer. I\'ve always had a really strong passion for composing almost any kind of genre. Although I\'ve been producing almost exclusively for pop singers....',
+    description: 'My musical life, at a certain point, led me to become a music producer. I\'ve always had a really strong passion for composing almost any kind of genre. Although I\'ve been producing almost exclusively for pop singers, I have had many other experiences related to other genres in the past. However, I\'m open-minded toward any kind of feature as well as work due to my broad range of tastes related to music. You can check my Instagram page to retrieve as much information as you need to get a good idea of my skills. Anyway, I\'ve worked with many good musicians throughout my career, you can even check my Spotify account to listen to many of my productions as well as entire pieces. I\'m also a guitar player. Indeed, I graduated from Saint Louise College of Music about three years ago in Pop/Jazz guitar. I\'ve worked in various situations, which have led me to become very versatile with my instrument. I really like to play almost everything. Check out my Instagram page to retrieve better information about my music career.',
+    image: '3.png',
+    id: 'music',
+    icon: 'apple-music',
+  }, {
+    name: 'Session Guitarist',
+    slightDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,',
+    description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+    image: '4.png',
+    id: 'music',
+    icon: 'music-note-list'
+  }
+];
+
+const defaultExport = {
+  portGallery: portGallery,
+  templatesGallery: templatesGallery,
+  jobsDone: jobsDone
+}
+
+export default defaultExport;

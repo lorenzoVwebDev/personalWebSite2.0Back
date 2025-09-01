@@ -5,7 +5,7 @@ const striptags = require('striptags')
 const dayjs = require('dayjs');
 require('dotenv').config();
 //models
-const usersDB = require('./mongo.schemas/mongo.schema.users.js')
+const usersDB = require('./mongoose.schemas/mongoose.schema.users.js')
 //regex
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
