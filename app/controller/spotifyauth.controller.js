@@ -29,7 +29,7 @@ const spotifyAuthCallback = (req, res) => {
     grant_type: 'authorization_code'
   }
 
-  
+  //
   const options = {
      method: 'POST', 
      headers: {
