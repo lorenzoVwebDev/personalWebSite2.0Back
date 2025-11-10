@@ -13,7 +13,7 @@ const spotifyAuthLogin = (req, res) => {
     response_type: "code",
     client_id: process.env.SPOTIFY_CLIENT_ID,
     scope: scope,
-    redirect_uri: "http://127.0.0.1:3000/spotify/auth/callback",
+    redirect_uri: `${process.env.BACKEND_DEV_URL}spotify/auth/callback`,
     state: state
   })
 
@@ -25,7 +25,7 @@ const spotifyAuthCallback = (req, res) => {
 
   const formUrlObj = {
     code: code,
-    redirect_uri: "http://127.0.0.1:3000/spotify/auth/callback",
+    redirect_uri: `http://127.0.0.1:3000/spotify/auth/callback`,
     grant_type: 'authorization_code'
   }
 
@@ -54,7 +54,7 @@ const spotifyAuthCallback = (req, res) => {
           r: access_token.refresh_token,
           exp: access_token.expires_in
         })
-        res.redirect('http://localhost:5173/portfolio/musicport?'+ searchParams.toString())
+        res.redirect(`${process.env.FRONTEND_DEV_URL}portfolio/musicport?`+ searchParams.toString())
       })
     })
     }
