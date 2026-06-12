@@ -27,7 +27,6 @@ const uploadCv = async (req, res, next) => {
 
 const getResume = async (req, res, next) => {
   try {
-    console.log('hello')
     const result = await model.getResumeBlob()
 
     return res.status(result[0]).send(result[1])

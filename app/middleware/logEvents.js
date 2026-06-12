@@ -4,7 +4,7 @@ const path = require('path');
 const {v4: uuid} = require('uuid')
 const { format } = require('date-fns');
 
-async function logEvents(msg, type) {
+async function logEvents(msg, type, next) {
   const dateEvent = `${format(new Date(), 'yyyyMMdd\tHH:mm:ss')}`
   const logItem = `${dateEvent}\t${type}\t${uuid()}\t${msg}\n`
   try {
@@ -15,18 +15,21 @@ async function logEvents(msg, type) {
     }
     await fsPromises.appendFile(path.join(__dirname, '../','../', 'logs', `${type}Logs.log`), logItem) 
   } catch (err) {
-    console.error(err);
+    next(err)
   }
 } 
 
-const requestLogger = async (req, res, next) => {
-  await logEvents(`${req.method}\t${req.headers.origin}\t${req.url}`, 'request');
+const requestLogger = async (err, req, res, next) => {
+  await logEvents(`${req.method}\t${req.headers.origin}\t${req.url}`, 'request', err);
   next();
 }
 
 const errorLogger = async (err, req, res, next) => {
-  await logEvents(`\t${err.message} in ${err.fileName}`, err.type);
-  next(err)
+  await logEvents(`\t${err.message} in ${err.fileName}`, err.type, next);
+  if (res.headersSent) {
+    return next(err)
+  }
+  res.status(500).sendFile(path.join(__dirname, '../', '../', 'public', '500.html'))
 }
 
 const corsLogger = async (message) => {

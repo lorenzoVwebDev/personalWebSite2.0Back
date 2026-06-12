@@ -57,9 +57,10 @@ app.use('/upload', require('./app/routes/uploads/uploads.js'));
 app.use('/testerror', require('./app/routes/testerror.route.js'));
 app.use('/authentication', require('./app/routes/authentication/authentication.route.js'));
 app.use('/spotify', require('./app/routes/spotifyauth/spotifyauth.js'))
+app.use('/contacts', require('./app/routes/uploads/uploadContacts.js'))
 //----------------error handler-------------------------
 app.use(errorLogger)
-app.use(errorHandler)
+//app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
