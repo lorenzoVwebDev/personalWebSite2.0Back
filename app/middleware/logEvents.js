@@ -25,11 +25,12 @@ const requestLogger = async (err, req, res, next) => {
 }
 
 const errorLogger = async (err, req, res, next) => {
-  await logEvents(`\t${err.message} in ${err.fileName}`, err.type, next);
+  //console.log(err)
+  await logEvents(`\t${err.message} in ${err.fileName}`, "error", next);
   if (res.headersSent) {
     return next(err)
   }
-  res.status(500).sendFile(path.join(__dirname, '../', '../', 'public', '500.html'))
+  return res.status(500).sendFile(path.join(__dirname, '../', '../', 'public', '500.html'))
 }
 
 const corsLogger = async (message) => {

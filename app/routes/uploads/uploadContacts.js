@@ -1,10 +1,8 @@
 const express = require("express");
 const Router = express.Router();
+const {uploadContacts} = require("../../controller/contacts.controller")
 
 Router.route("*")
-    .post((req, res) => {
-        console.log(req)
-
-    })
+    .post(uploadContacts)
 
 module.exports = Router
