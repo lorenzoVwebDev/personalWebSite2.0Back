@@ -1,8 +1,9 @@
 const express = require('express');
 const Router = express.Router()
+const upload = require('../../middleware/multer.js')
 const {signUp, signIn, logOut, changePwd} = require('../../controller/authentication.controller.js')
 
-Router.route('/signup').post(signUp);
+Router.route('/signup').post(upload.single('avatar'), signUp);
 Router.route('/signin').post(signIn);
 Router.route('/logout/*').delete(logOut);
 Router.route('/changepwd').put(changePwd);

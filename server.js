@@ -8,6 +8,7 @@ const app = express();
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const corsOptions = require('./app/configuration/corsOptions.js');
+const upload = require('./app/middleware/multer.js')
 require('dotenv').config()
 //database connection
 //
@@ -45,7 +46,6 @@ app.use('/scripts', async (req, res) => {
     }
   } 
   
-  console.log('works')
   return res.status(200).sendFile(file, options);
 
   } catch (err) {
@@ -57,7 +57,32 @@ app.use('/upload', require('./app/routes/uploads/uploads.js'));
 app.use('/testerror', require('./app/routes/testerror.route.js'));
 app.use('/authentication', require('./app/routes/authentication/authentication.route.js'));
 app.use('/spotify', require('./app/routes/spotifyauth/spotifyauth.js'))
-app.use('/contacts', require('./app/routes/uploads/uploadContacts.js'))
+app.use('/contacts', [upload.single("audio_file"), require('./app/routes/uploads/uploadContacts.js')])
+
+app.use('/musicarray', (req, res) => {
+  return res.status(200).json([
+  "Pop",
+  "Rock",
+  "Hip Hop",
+  "Rap",
+  "R&B",
+  "Jazz",
+  "Blues",
+  "Country",
+  "Folk",
+  "Classical",
+  "Electronic",
+  "House",
+  "Techno",
+  "EDM",
+  "Reggae",
+  "Latin",
+  "Metal",
+  "Alternative Rock",
+  "Indie Rock",
+  "Soul"
+])
+})
 //----------------error handler-------------------------
 app.use(errorLogger)
 //app.use(errorHandler)

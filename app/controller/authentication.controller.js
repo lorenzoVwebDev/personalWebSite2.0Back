@@ -15,8 +15,8 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\
 const signUp = async (req, res, next) => {
 try {
   let { username, email, password } = req.body;
-
-  if (!username || !email || !password) res.status(401).json({'response': 'missing-credentials'});
+  console.log(req.body)
+  if (!username || !email || !password) return res.status(401).json({'response': 'missing-credentials'});
   
   username = striptags(username)
   email = emailRegex.test(striptags(email)) ? striptags(email) : null;
