@@ -3,6 +3,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const striptags = require('striptags')
 const dayjs = require('dayjs');
+const fs = require('fs')
+const fsPromises = require('fs').promises
+const mongoose = require('mongoose');
+const { client, mongodb, ObjectId } = require('../configuration/mongodb.config.js');
 require('dotenv').config();
 //models
 const usersDB = require('./mongoose.schemas/mongoose.schema.users.js')
@@ -13,10 +17,16 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\
 //----------------------functions---------------
 
 const modelSignUp = async (newUser) => {
+
+  await mongoose.connect(process.env.MONGO_DB_URI, {
+    dbName: process.env.DB_NAME
+  })
+
   const users = await usersDB.find()
 
   for (const value of users) {
     if (value.username == newUser.username || value.email == newUser.email) {
+      await mongoose.disconnect()
       return [409, {'response':'user-duplicated'}];
     }
   }
@@ -30,11 +40,60 @@ const modelSignUp = async (newUser) => {
   }
 
   const result = await usersDB.create(newUser);
-    
+
+  await mongoose.disconnect()
+
+  switch (newUser.avatar ? true : false) {
+    case (true): {
+      await client.connect();
+      const db = client.db(process.env.DB_NAME);
+      const uploadFilesBucket = new mongodb.GridFSBucket(db, {
+        bucketName: process.env.FILES_BUCKET
+      })
+
+      const writeStream = await new Promise((resolve, reject) => {
+      const uploadStream = uploadFilesBucket.openUploadStream(`${newUser.email}_avatar`, {
+        metadata: {
+          fileType: "avatar"
+      }});
+
+      fs.createReadStream(newUser.avatar.path)
+      .pipe(uploadStream);
+
+      uploadStream.on("finish", () => {
+        resolve();
+      })
+
+      process.on("uncaugthException", (err) => {
+        client.close();
+        if (err) reject(err)
+      })
+
+      }).then(res => true).catch(res => res)
+
+      if (fs.existsSync(newUser.avatar.path)) {
+        await fsPromises.unlink(newUser.avatar.path)
+      }
+
+      if (writeStream instanceof Error) {
+        throw writeStream
+      }
+
+      setTimeout(() => {
+        client.close()
+      }, 1000)
+      break;
+    }
+    default: 
+  }
+
   return [200, {'response':'user-created'}]
 }
 
 const modelSignIn = async (username, password) => {
+  await mongoose.connect(process.env.MONGO_DB_URI, {
+    dbName: process.env.DB_NAME
+  })
   const users = await usersDB.find()
 
   const foundUser = users.find(user => {

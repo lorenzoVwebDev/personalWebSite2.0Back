@@ -14,8 +14,10 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\
 
 const signUp = async (req, res, next) => {
 try {
+  const file = req.file
+
   let { username, email, password } = req.body;
-  console.log(req.body)
+  
   if (!username || !email || !password) return res.status(401).json({'response': 'missing-credentials'});
   
   username = striptags(username)
@@ -28,6 +30,8 @@ try {
     password
   }
 
+  if (file) newUser.avatar = file
+  
   if (!Object.entries(newUser).every((value) => value[1])) res.status(400).json({'response': 'invalid-credentials'});
 
   const result = await model.modelSignUp(newUser)
