@@ -15,7 +15,7 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\
 const signUp = async (req, res, next) => {
 try {
   const file = req.file
-
+  console.log(file)
   let { username, email, password } = req.body;
   
   if (!username || !email || !password) return res.status(401).json({'response': 'missing-credentials'});
@@ -55,6 +55,16 @@ const signIn = async (req, res, next) => {
     const result = await model.modelSignIn(username, password)
 
     if (result[0] === 200) {
+      if (result[3] instanceof Buffer) {
+        return res.status(result[0])
+        .cookie('refreshToken', result[2], {
+          httpOnly: true, sameSite: 'Lax', maxAge: 24 * 60 * 60 * 1000
+        })
+        .json({"accessToken": result[1],
+          "avatar": result[3],
+          "mimeType": result[4]
+        })
+      } else
       return res.status(result[0])
       .cookie('refreshToken', result[2], {
         httpOnly: true, sameSite: 'Lax', maxAge: 24 * 60 * 60 * 1000

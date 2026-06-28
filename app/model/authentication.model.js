@@ -5,6 +5,7 @@ const striptags = require('striptags')
 const dayjs = require('dayjs');
 const fs = require('fs')
 const fsPromises = require('fs').promises
+const path = require('path')
 const mongoose = require('mongoose');
 const { client, mongodb, ObjectId } = require('../configuration/mongodb.config.js');
 require('dotenv').config();
@@ -39,6 +40,8 @@ const modelSignUp = async (newUser) => {
     User: 2001
   }
 
+  newUser.avatar ? newUser.profileImage = true : newUser.profileImage = false 
+
   const result = await usersDB.create(newUser);
 
   await mongoose.disconnect()
@@ -54,7 +57,8 @@ const modelSignUp = async (newUser) => {
       const writeStream = await new Promise((resolve, reject) => {
       const uploadStream = uploadFilesBucket.openUploadStream(`${newUser.email}_avatar`, {
         metadata: {
-          fileType: "avatar"
+          fileType: "avatar",
+          mimeType: newUser.avatar.mimetype
       }});
 
       fs.createReadStream(newUser.avatar.path)
@@ -138,18 +142,58 @@ const modelSignIn = async (username, password) => {
       foundUser.refreshToken = refreshToken;
 
       const update = foundUser.save()
+      
+      if (foundUser.profileImage) {
+        await client.connect();
+        const db = client.db(process.env.DB_NAME);
+        const pingResult = await db.command({ping: 1});
+        if (!pingResult) throw new Error("db-not-pinging");
+        const bucket = new mongodb.GridFSBucket(db, {bucketName: process.env.FILES_BUCKET});
+        if (!bucket) throw new Error('bucket error')
+        const fileName = `${foundUser.email}_avatar`;
+        const cursor = bucket.find({filename: fileName})
+        let objectId;
+        let mimeType
+        for await (const doc of cursor) {
+          mimeType = doc.metadata.mimeType
+          objectId = doc._id.toString()
+          cursor.close()
+        }
 
-      if (update) return [200, accessToken, refreshToken];
+        const result = await new Promise((resolve, reject) => {
+          const downloadStream = bucket.openDownloadStream(new ObjectId(objectId)).
+           pipe(fs.createWriteStream(path.join(__dirname, '../', '../', 'public', 'temp', 'avatar_stream_'+fileName)))
+
+           downloadStream.on("finish", async () => {
+              const file = await fsPromises.readFile(path.join(__dirname, '../', '../', 'public', 'temp', 'avatar_stream_'+fileName));
+              resolve(file)
+           })
+
+           process.on("uncaughtException", (err) => {
+            reject(err)
+           })
+        }).then(res => res).catch(res => res)
+
+        if (result instanceof Error) throw result;
+
+        await fsPromises.unlink(path.join(__dirname, '../', '../', 'public', 'temp', 'avatar_stream_'+fileName))
+
+        return [200, accessToken, refreshToken, result, mimeType]
+      } else return [200, accessToken, refreshToken];
     } else {
       const lastAttempt = foundUser.lastattempt;
+
       foundUser.lastattempt = currentUnix;
       if (currentUnixMinus5>=lastAttempt) {
         foundUser.attempts = 0;
-      } else if (foundUser.attempts < 3) {
+      } 
+      if (foundUser.attempts < 3) {
         foundUser.attempts += 1;
       }
 
-      return [401, {'response':'wrong-password'}]
+      const update = foundUser.save()
+
+      if (update) return [401, {'response':'wrong-password'}]
     }
   } else {
     return [401, {"response":"attempts-excedeed"}]
