@@ -66,4 +66,24 @@ const uploadContactsProduction = async (req, res, next) => {
     }
 }
 
-module.exports = { uploadPlainContacts, uploadContactsProduction }
+const uploadContactsMix = async (req, res, next) => {
+    const body = req.body
+    if (!body.first_name || !body.last_name || !body.email) return res.status(400).json({"response": "missing-credentials"})
+    let contactsMixObject = {};
+    contactsMixObject.optionObject = {}
+    Object.entries(body).forEach((value, index) => {
+        if (value[0].startsWith("option-")) {
+            contactsMixObject.optionObject[value[0]] = value[1]
+        } else contactsMixObject[value[0]] = value[1]
+    })
+    
+    try {
+        const result = await model.modelUploadContactsMix(contactsMixObject)
+        return res.status(result[0]).json(result[1])
+    } catch (err) {
+        next(err)
+    }
+    return res.send("works")
+}
+
+module.exports = { uploadPlainContacts, uploadContactsProduction, uploadContactsMix }

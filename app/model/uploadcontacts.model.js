@@ -48,14 +48,14 @@ const modelUploadContactsProduction = async (contactsProdObj) => {
     
     const result = await contactsCollection.insertOne(contactInfo)
     //test fake email
-    const fakeUserEmail = "fake.email@emailfake.it"
+    //const fakeUserEmail = "fake.email@emailfake.it"
     
     switch (contactsProdObj.audio_file ? true : false) {
         case (true): {
             const uploadFilesBucket = new mongodb.GridFSBucket(db, {bucketName: process.env.FILES_BUCKET});
 
             const writeStream = await new Promise((resolve, reject) => {
-                const uploadStream = uploadFilesBucket.openUploadStream(`${fakeUserEmail}_audio_file`, {
+                const uploadStream = uploadFilesBucket.openUploadStream(`${contactInfo.email}_audio_file`, {
                     metadata: {
                         fileType: "audio_file"
                     }
@@ -101,4 +101,24 @@ const modelUploadContactsProduction = async (contactsProdObj) => {
     }
 }
 
-module.exports = { modelUploadContacts, modelUploadContactsProduction }
+const modelUploadContactsMix = async (contactsMixObj) => {
+    await client.connect();
+    const db = client.db(process.env.DB_NAME);
+
+    const pingResult = await db.command({ping: 1});
+
+    if (!pingResult) return new Error("db-not-pinging");
+
+    const contactsCollection = db.collection("contacts-collection")
+    if (!contactsCollection) await db.createCollection("contacts-collection")
+
+    const result = await contactsCollection.insertOne(contactsMixObj)
+
+    await client.close()
+
+    if (!result.insertedId.toString) return new Error("db-not-inserting")
+
+    return [200, {"response": "contacts-inserted"}]
+}
+
+module.exports = { modelUploadContacts, modelUploadContactsProduction, modelUploadContactsMix }
