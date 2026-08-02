@@ -3,12 +3,17 @@ const fs = require('fs')
 const fsPromises = require('fs').promises
 const striptags = require('striptags')
 const model = require('../model/uploadcontacts.model')
+const nodemailer = require('nodemailer'); 
+const {MailtrapClient } = require('mailtrap')
+const {sendContactsMail} = require("../configuration/mail.config")
 
 const uploadPlainContacts = async (req, res, next) => {
     const {first_name, last_name, email, comment} = req.body
 
     if (!first_name || !last_name || !email) return res.status(401).json({"response": "missing-credentials"})
-        
+
+        await sendContactsMail(req.body.request_type, first_name, last_name, email)
+
         const contactsObj = {
           type: "plain",  
           first_name: striptags(first_name),
@@ -86,4 +91,54 @@ const uploadContactsMix = async (req, res, next) => {
     return res.send("works")
 }
 
-module.exports = { uploadPlainContacts, uploadContactsProduction, uploadContactsMix }
+const uploadContactsMastering = async (req, res, next) => {
+/*     first_name
+Lorenzo
+last_name
+Viganego
+email
+lorenzo.viganego@libero.it
+comment
+request_type
+master
+mastering_type
+balanced
+wetransfer-link
+https://we.tl/t-EpCuGKXtjMgwucjW
+master_reference_1
+master_reference_2
+master_reference_3
+option-Extra-fast 1-day delivery
+undefined
+option-Additional revision
+undefined
+option-Additional song
+undefined
+option-Mix Feedback
+undefined
+option-Unlimited Revisions
+undefined */
+    const body = req.body;
+
+    if (!body.first_name || !body.last_name || !body.email || !body.wetransfer_link
+) return res.status(400).json({"response": "missing-credentials"})
+    
+    const contactMasterObject = {};
+    contactMasterObject.optionObject = {}
+
+    Object.entries(body).forEach((value, index) => {
+        if (value[0].startsWith("option-")) {
+            contactMasterObject.optionObject[value[0]] = value[1]
+        } else contactMasterObject[value[0]] = value[1]
+    })
+
+    try {
+        const result = await model.modelUploadContactsMaster(contactMasterObject)
+        
+        return res.status(result[0]).json(result[1]);
+    } catch (err) {
+        next(err)
+    }
+}
+
+module.exports = { uploadPlainContacts, uploadContactsProduction, uploadContactsMix,  uploadContactsMastering}
