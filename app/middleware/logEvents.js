@@ -30,7 +30,7 @@ const errorLogger = async (err, req, res, next) => {
   if (res.headersSent) {
     return next(err)
   }
-  return res.status(500).sendFile(path.join(__dirname, '../', '../', 'public', '500.html'))
+  return res.status(500).json({"response": "error_500"})
 }
 
 const corsLogger = async (message) => {

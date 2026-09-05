@@ -49,8 +49,7 @@ app.use('/scripts', async (req, res) => {
   return res.status(200).sendFile(file, options);
 
   } catch (err) {
-    res.status(500).json({'response':'server-error'})
-    next(errorCreator(error.message, 'error', __filename))
+    next(err)
   }
 })
 app.use('/upload', require('./app/routes/uploads/uploads.js'));

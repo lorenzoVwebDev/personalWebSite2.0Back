@@ -28,12 +28,12 @@ const modelUploadContacts = async (contactsObj) => {
 const modelUploadContactsProduction = async (contactsProdObj) => {
 
     await client.connect();
+
     const db = client.db(process.env.DB_NAME);
 
     const pingResult = await db.command({ping: 1});
 
     if (!pingResult) return new Error("db-not-pinging");
-
     const contactsCollection = db.collection("contacts-collection")
     if (!contactsCollection) await db.createCollection("contacts-collection")
 
@@ -45,13 +45,14 @@ const modelUploadContactsProduction = async (contactsProdObj) => {
                 contactInfo[contact[0]] = contact[1]
             }
         })
-    
+
     const result = await contactsCollection.insertOne(contactInfo)
     //test fake email
     //const fakeUserEmail = "fake.email@emailfake.it"
     
     switch (contactsProdObj.audio_file ? true : false) {
         case (true): {
+
             const uploadFilesBucket = new mongodb.GridFSBucket(db, {bucketName: process.env.FILES_BUCKET});
 
             const writeStream = await new Promise((resolve, reject) => {

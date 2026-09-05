@@ -12,8 +12,6 @@ const uploadPlainContacts = async (req, res, next) => {
 
     if (!first_name || !last_name || !email) return res.status(401).json({"response": "missing-credentials"})
 
-        await sendContactsMail(req.body.request_type, first_name, last_name, email)
-
         const contactsObj = {
           type: "plain",  
           first_name: striptags(first_name),
@@ -26,6 +24,7 @@ const uploadPlainContacts = async (req, res, next) => {
     try {
         const result = await model.modelUploadContacts(contactsObj)
 
+        if (result[0] === 200) await sendContactsMail(req.body.request_type, first_name, last_name, email)
         return res.status(result[0]).json(result[1])
     } catch (err) {
         next(err)
@@ -37,7 +36,7 @@ const uploadContactsProduction = async (req, res, next) => {
   /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})([?&].*)?$/;
     const file = req.file;
 
-    const {first_name, last_name, email, comment, 
+    const {request_type, first_name, last_name, email, comment, 
         genre, tracks_number, phone_number, reference1, 
         reference2, reference3, wapp_contact
     } = req.body
@@ -65,6 +64,7 @@ const uploadContactsProduction = async (req, res, next) => {
     
         const result = await model.modelUploadContactsProduction(contactsProdObj)
 
+        if (result[0] === 200) await sendContactsMail(request_type, first_name, last_name, email)
         return res.status(result[0]).json(result[1])
     } catch (err) {
         next(err)
@@ -84,40 +84,14 @@ const uploadContactsMix = async (req, res, next) => {
     
     try {
         const result = await model.modelUploadContactsMix(contactsMixObject)
+        if (result[0] === 200) await sendContactsMail(body.request_type, body.first_name, body.last_name, body.email)
         return res.status(result[0]).json(result[1])
     } catch (err) {
         next(err)
     }
-    return res.send("works")
 }
 
 const uploadContactsMastering = async (req, res, next) => {
-/*     first_name
-Lorenzo
-last_name
-Viganego
-email
-lorenzo.viganego@libero.it
-comment
-request_type
-master
-mastering_type
-balanced
-wetransfer-link
-https://we.tl/t-EpCuGKXtjMgwucjW
-master_reference_1
-master_reference_2
-master_reference_3
-option-Extra-fast 1-day delivery
-undefined
-option-Additional revision
-undefined
-option-Additional song
-undefined
-option-Mix Feedback
-undefined
-option-Unlimited Revisions
-undefined */
     const body = req.body;
 
     if (!body.first_name || !body.last_name || !body.email || !body.wetransfer_link
@@ -135,6 +109,7 @@ undefined */
     try {
         const result = await model.modelUploadContactsMaster(contactMasterObject)
         
+        if (result[0] === 200) await sendContactsMail(body.request_type, body.first_name, body.last_name, body.email)
         return res.status(result[0]).json(result[1]);
     } catch (err) {
         next(err)
